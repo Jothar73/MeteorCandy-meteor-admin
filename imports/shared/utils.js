@@ -7,7 +7,7 @@ utils.objectToRow = function(obj, keys) {
   if(!keys){
    keys = Object.getOwnPropertyNames(obj);
   }
-  return `<tr>${keys.reduce((final, current) => {
+  return `<tr style='border-bottom:1px solid #eee;'>${keys.reduce((final, current) => {
     return `${final}<td>${obj[current]}</td>`;
   }, '')}</tr>`;
 };
@@ -16,14 +16,14 @@ utils.collectionToTable = function(collection) {
     return 'No data found';
   }
   let total = `<h3>${collection.length} items</h3>`;
-  const keys = Object.getOwnPropertyNames(collection);
-  const headerRow = `<tr>${keys.reduce((final, current) => {
+  const keys = Object.getOwnPropertyNames(collection[0]);
+  const headerRow = `<tr style='border:1px solid #ccc;'>${keys.reduce((final, current) => {
     return `${final}<td>${current}</td>`;
   }, '')}</tr>`;
   const body = collection.reduce((final,current)=>{
     return final + utils.objectToRow(current, keys);
   },'');
-  return `${total}<table>${headerRow}${body}</table>`;
+  return `${total}<table style='width:100%;'>${headerRow}${body}</table>`;
 };
 
 export { utils };

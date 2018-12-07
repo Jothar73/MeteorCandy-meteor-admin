@@ -1,4 +1,4 @@
-import { helpers } from '../../server/_helpers';
+import { utils } from '../utils.js';
 var functions = [
   {
     name: 'Stale calendars',
@@ -13,13 +13,20 @@ var functions = [
         .utc()
         .add(-48, 'hours')
         .toDate();
-        console.log(dateCutOff)
+      console.log(dateCutOff);
       const calendarList = Calendar.find(
         { $or: [{ 'reference.lastSync': null }, { 'reference.lastSync': { $lt: dateCutOff } }] },
         { _id: 1, name: 1, ownerId: 1, 'reference.lastSync': 1 }
-      ).fetch();
+      )
+        .fetch()
+        .map(t => {
+          return {
+            Name: t.name,
+            LastSync: (t.reference || {}).lastSync
+          };
+        });
 
-      return helpers.collectionToTable(calendarList);
+      return utils.collectionToTable(calendarList);
     },
     client: function() {}
   }

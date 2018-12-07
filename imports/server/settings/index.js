@@ -1,3 +1,3 @@
-const settings = {}
+settings = {}
 
 export { settings };
